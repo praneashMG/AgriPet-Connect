@@ -69,7 +69,7 @@ exports.login = async (req, res) => {
         email: user.rows[0].email,
         role: user.rows[0].role,
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "fallback_secret_key",
       {
         expiresIn: "7d",
       }

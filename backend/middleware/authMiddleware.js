@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
 
     const verified = jwt.verify(
       token,
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET || "fallback_secret_key"
     );
 
     req.user = verified;
