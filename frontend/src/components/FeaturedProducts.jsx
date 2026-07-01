@@ -8,7 +8,7 @@ const FeaturedProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products?limit=4');
+        const response = await fetch('https://agripet-connect.onrender.com/api/products?limit=4');
         if (response.ok) {
           const data = await response.json();
           setProducts(data.slice(0, 4)); // Display top 4
@@ -46,7 +46,7 @@ const FeaturedProducts = () => {
               <div className="h-48 bg-slate-50 rounded-[20px] flex items-center justify-center mb-5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-slate-900/5 z-10 pointer-events-none group-hover:bg-transparent transition-colors duration-500"></div>
                 <img 
-                  src={prod.image ? (prod.image.startsWith('http') ? prod.image : `http://localhost:5000/uploads/${prod.image}`) : 'https://images.unsplash.com/photo-1589927986089-35812388d1f4?w=800&q=80'} 
+                  src={prod.image ? (prod.image.startsWith('http') ? prod.image : `https://agripet-connect.onrender.com/uploads/${prod.image}`) : 'https://images.unsplash.com/photo-1589927986089-35812388d1f4?w=800&q=80'} 
                   alt={prod.name} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" 
                 />

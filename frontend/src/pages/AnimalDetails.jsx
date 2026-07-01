@@ -22,7 +22,7 @@ const AnimalDetails = () => {
   useEffect(() => {
     const fetchAnimalDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/animals/${id}`);
+        const response = await fetch(`https://agripet-connect.onrender.com/api/animals/${id}`);
         if (!response.ok) {
           throw new Error('Animal details could not be loaded.');
         }
@@ -63,7 +63,7 @@ const AnimalDetails = () => {
   }
 
   const icon = categoryIcons[animal.category] || categoryIcons.Default;
-  const imageUrl = animal.image ? (animal.image.startsWith('http') ? animal.image : `http://localhost:5000/uploads/${animal.image}`) : null;
+  const imageUrl = animal.image ? (animal.image.startsWith('http') ? animal.image : `https://agripet-connect.onrender.com/uploads/${animal.image}`) : null;
 
   return (
     <div className="py-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -174,7 +174,7 @@ const AnimalDetails = () => {
                   <button 
                     onClick={async () => {
                       try {
-                        const res = await fetch('http://localhost:5000/api/cart', {
+                        const res = await fetch('https://agripet-connect.onrender.com/api/cart', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
                           body: JSON.stringify({ animal_id: animal.id })
@@ -193,7 +193,7 @@ const AnimalDetails = () => {
                   <button 
                     onClick={async () => {
                       try {
-                        const res = await fetch('http://localhost:5000/api/wishlist', {
+                        const res = await fetch('https://agripet-connect.onrender.com/api/wishlist', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
                           body: JSON.stringify({ animal_id: animal.id })

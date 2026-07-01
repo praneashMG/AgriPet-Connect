@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [wishlistCount, setWishlistCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
 
-  const API_URL = 'http://localhost:5000/api/auth';
-  const BASE_URL = 'http://localhost:5000/api';
+  const API_URL = 'https://agripet-connect.onrender.com/api/auth';
+  const BASE_URL = 'https://agripet-connect.onrender.com/api';
 
   const refreshCounts = async (currentToken = token) => {
     if (!currentToken) return;

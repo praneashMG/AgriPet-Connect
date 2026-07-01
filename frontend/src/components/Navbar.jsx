@@ -95,7 +95,7 @@ const Navbar = () => {
                 
                 <NavLink to="/profile" className="relative w-8 h-8 shrink-0 rounded-full overflow-hidden border-2 border-transparent hover:border-emerald-500 transition-colors flex items-center justify-center bg-emerald-100 text-emerald-700 text-xs font-bold ring-2 ring-transparent shadow-sm">
                   {user.profile_image ? (
-                    <img src={`http://localhost:5000/uploads/${user.profile_image}`} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={`https://agripet-connect.onrender.com/uploads/${user.profile_image}`} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
                     user.name?.charAt(0).toUpperCase() || 'U'
                   )}
@@ -175,7 +175,7 @@ const Navbar = () => {
               <div className="flex items-center gap-3 px-3 py-3 bg-gray-50 rounded-lg mb-2">
                 <div className="relative h-9 w-9 shrink-0 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-sm font-bold uppercase overflow-hidden">
                   {user.profile_image ? (
-                    <img src={`http://localhost:5000/uploads/${user.profile_image}`} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={`https://agripet-connect.onrender.com/uploads/${user.profile_image}`} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
                     user.name?.charAt(0) || 'U'
                   )}

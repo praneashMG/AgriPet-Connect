@@ -20,7 +20,7 @@ const Wishlist = () => {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/wishlist', {
+      const response = await fetch('https://agripet-connect.onrender.com/api/wishlist', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -42,7 +42,7 @@ const Wishlist = () => {
 
   const handleRemove = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/wishlist/${id}`, {
+      const response = await fetch(`https://agripet-connect.onrender.com/api/wishlist/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -66,7 +66,7 @@ const Wishlist = () => {
       if (animalId) payload.animal_id = animalId;
       payload.quantity = 1;
 
-      const response = await fetch('http://localhost:5000/api/cart', {
+      const response = await fetch('https://agripet-connect.onrender.com/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const Wishlist = () => {
           {wishlistItems.map((item) => {
             const icon = categoryIcons[item.category] || categoryIcons.Default;
             const imageUrl = item.image
-              ? (item.image.startsWith('http') ? item.image : `http://localhost:5000/uploads/${item.image}`)
+              ? (item.image.startsWith('http') ? item.image : `https://agripet-connect.onrender.com/uploads/${item.image}`)
               : null;
             const isOutOfStock = item.stock <= 0;
 

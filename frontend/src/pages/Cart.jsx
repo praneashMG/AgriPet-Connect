@@ -20,7 +20,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/cart', {
+      const response = await fetch('https://agripet-connect.onrender.com/api/cart', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -42,7 +42,7 @@ const Cart = () => {
 
   const handleRemove = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${id}`, {
+      const response = await fetch(`https://agripet-connect.onrender.com/api/cart/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -69,7 +69,7 @@ const Cart = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${id}`, {
+      const response = await fetch(`https://agripet-connect.onrender.com/api/cart/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const Cart = () => {
             {cartItems.map((item) => {
               const icon = categoryIcons[item.category] || categoryIcons.Default;
               const imageUrl = item.image
-                ? (item.image.startsWith('http') ? item.image : `http://localhost:5000/uploads/${item.image}`)
+                ? (item.image.startsWith('http') ? item.image : `https://agripet-connect.onrender.com/uploads/${item.image}`)
                 : null;
 
               return (
