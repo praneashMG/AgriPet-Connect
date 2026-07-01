@@ -22,7 +22,7 @@ const Profile = () => {
     formData.append('image', file);
 
     try {
-      const response = await fetch('https://agripet-connect.onrender.com/api/auth/profile-image', {
+      const response = await fetch('http://localhost:5000/api/auth/profile-image', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -64,7 +64,7 @@ const Profile = () => {
   const fetchMyAnimals = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/animals?sellerId=${user.id}`);
+      const response = await fetch(`http://localhost:5000/api/animals?sellerId=${user.id}`);
       if (response.ok) {
         const data = await response.json();
         setMyAnimals(data);
@@ -79,7 +79,7 @@ const Profile = () => {
   const fetchMyProducts = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/products?sellerId=${user.id}`);
+      const response = await fetch(`http://localhost:5000/api/products?sellerId=${user.id}`);
       if (response.ok) {
         const data = await response.json();
         setMyProducts(data);
@@ -94,7 +94,7 @@ const Profile = () => {
   const fetchMyWishlist = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/wishlist`, {
+      const response = await fetch(`http://localhost:5000/api/wishlist`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -113,7 +113,7 @@ const Profile = () => {
   const fetchMyCart = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/cart`, {
+      const response = await fetch(`http://localhost:5000/api/cart`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -140,7 +140,7 @@ const Profile = () => {
     if (!window.confirm('Are you sure you want to delete this animal listing?')) return;
 
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/animals/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/animals/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -162,7 +162,7 @@ const Profile = () => {
     if (!window.confirm('Are you sure you want to delete this product listing?')) return;
 
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/products/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -186,7 +186,7 @@ const Profile = () => {
 
   const handleRemoveWishlist = async (id) => {
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/wishlist/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/wishlist/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -203,7 +203,7 @@ const Profile = () => {
 
   const handleRemoveCart = async (id) => {
     try {
-      const response = await fetch(`https://agripet-connect.onrender.com/api/cart/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/cart/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -244,7 +244,7 @@ const Profile = () => {
           <div className="relative w-24 h-24 mx-auto group shrink-0">
             <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center text-3xl mx-auto font-bold text-emerald-700 shadow-sm border-2 border-white ring-4 ring-emerald-50 overflow-hidden relative shrink-0">
               {user.profile_image ? (
-                <img src={`https://agripet-connect.onrender.com/uploads/${user.profile_image}`} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
+                <img src={`http://localhost:5000/uploads/${user.profile_image}`} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
               ) : (
                 initials
               )}
@@ -310,7 +310,7 @@ const Profile = () => {
                 {myAnimals.map((animal) => {
                   const icon = animalCategoryIcons[animal.category] || animalCategoryIcons.Default;
                   const imageUrl = animal.image
-                    ? (animal.image.startsWith('http') ? animal.image : `https://agripet-connect.onrender.com/uploads/${animal.image}`)
+                    ? (animal.image.startsWith('http') ? animal.image : `http://localhost:5000/uploads/${animal.image}`)
                     : null;
 
                   return (
@@ -389,7 +389,7 @@ const Profile = () => {
                 {myProducts.map((product) => {
                   const icon = productCategoryIcons[product.category] || productCategoryIcons.Default;
                   const imageUrl = product.image
-                    ? (product.image.startsWith('http') ? product.image : `https://agripet-connect.onrender.com/uploads/${product.image}`)
+                    ? (product.image.startsWith('http') ? product.image : `http://localhost:5000/uploads/${product.image}`)
                     : null;
 
                   return (
@@ -464,7 +464,7 @@ const Profile = () => {
               <div className="space-y-4">
                 {myWishlist.slice(0, 3).map((item) => {
                   const icon = productCategoryIcons[item.category] || productCategoryIcons.Default;
-                  const imageUrl = item.image ? (item.image.startsWith('http') ? item.image : `https://agripet-connect.onrender.com/uploads/${item.image}`) : null;
+                  const imageUrl = item.image ? (item.image.startsWith('http') ? item.image : `http://localhost:5000/uploads/${item.image}`) : null;
 
                   return (
                     <div
@@ -535,7 +535,7 @@ const Profile = () => {
               <div className="space-y-4">
                 {myCart.slice(0, 3).map((item) => {
                   const icon = productCategoryIcons[item.category] || productCategoryIcons.Default;
-                  const imageUrl = item.image ? (item.image.startsWith('http') ? item.image : `https://agripet-connect.onrender.com/uploads/${item.image}`) : null;
+                  const imageUrl = item.image ? (item.image.startsWith('http') ? item.image : `http://localhost:5000/uploads/${item.image}`) : null;
 
                   return (
                     <div

@@ -23,7 +23,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`https://agripet-connect.onrender.com/api/products/${id}`);
+        const response = await fetch(`http://localhost:5000/api/products/${id}`);
         if (!response.ok) {
           throw new Error('Product details could not be loaded.');
         }
@@ -42,7 +42,7 @@ const ProductDetails = () => {
 
   const handleAddToWishlist = async (productId) => {
     try {
-      const response = await fetch('https://agripet-connect.onrender.com/api/wishlist', {
+      const response = await fetch('http://localhost:5000/api/wishlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const ProductDetails = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      const response = await fetch('https://agripet-connect.onrender.com/api/cart', {
+      const response = await fetch('http://localhost:5000/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const ProductDetails = () => {
   }
 
   const icon = categoryIcons[product.category] || categoryIcons.Default;
-  const imageUrl = product.image ? (product.image.startsWith('http') ? product.image : `https://agripet-connect.onrender.com/uploads/${product.image}`) : null;
+  const imageUrl = product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:5000/uploads/${product.image}`) : null;
   const isOutOfStock = product.stock <= 0;
 
   return (

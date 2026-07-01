@@ -41,7 +41,7 @@ const Products = () => {
       if (filters.category) params.append('category', filters.category);
       if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
 
-      const response = await fetch(`https://agripet-connect.onrender.com/api/products?${params.toString()}`);
+      const response = await fetch(`http://localhost:5000/api/products?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setProducts(data);
@@ -75,7 +75,7 @@ const Products = () => {
 
   const handleAddToWishlist = async (productId) => {
     try {
-      const response = await fetch('https://agripet-connect.onrender.com/api/wishlist', {
+      const response = await fetch('http://localhost:5000/api/wishlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const Products = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      const response = await fetch('https://agripet-connect.onrender.com/api/cart', {
+      const response = await fetch('http://localhost:5000/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ const Products = () => {
               {products.map((product) => {
                 const icon = categoryIcons[product.category] || categoryIcons.Default;
                 const imageUrl = product.image
-                  ? (product.image.startsWith('http') ? product.image : `https://agripet-connect.onrender.com/uploads/${product.image}`)
+                  ? (product.image.startsWith('http') ? product.image : `http://localhost:5000/uploads/${product.image}`)
                   : null;
 
                 const isOutOfStock = product.stock <= 0;

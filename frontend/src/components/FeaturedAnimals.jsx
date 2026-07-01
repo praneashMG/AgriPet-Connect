@@ -7,7 +7,7 @@ const FeaturedAnimals = () => {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const response = await fetch('https://agripet-connect.onrender.com/api/animals?limit=3');
+        const response = await fetch('http://localhost:5000/api/animals?limit=3');
         if (response.ok) {
           const data = await response.json();
           setAnimals(data.slice(0, 3)); // Display top 3
@@ -45,7 +45,7 @@ const FeaturedAnimals = () => {
               <div className="relative h-64 md:h-72 bg-slate-100 overflow-hidden m-2 rounded-[24px]">
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent z-10 pointer-events-none"></div>
                 <img 
-                  src={animal.image ? (animal.image.startsWith('http') ? animal.image : `https://agripet-connect.onrender.com/uploads/${animal.image}`) : 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?w=800&q=80'} 
+                  src={animal.image ? (animal.image.startsWith('http') ? animal.image : `http://localhost:5000/uploads/${animal.image}`) : 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?w=800&q=80'} 
                   alt={animal.animal_name} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" 
                 />

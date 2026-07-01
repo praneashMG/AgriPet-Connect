@@ -50,7 +50,7 @@ const AddAnimal = () => {
         data.append('image', imageFile);
       }
 
-      const response = await fetch('https://agripet-connect.onrender.com/api/animals', {
+      const response = await fetch('http://localhost:5000/api/animals', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

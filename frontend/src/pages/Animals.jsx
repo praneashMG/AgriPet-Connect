@@ -33,7 +33,7 @@ const Animals = () => {
       if (filters.location) params.append('location', filters.location);
       if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
 
-      const response = await fetch(`https://agripet-connect.onrender.com/api/animals?${params.toString()}`);
+      const response = await fetch(`http://localhost:5000/api/animals?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setAnimals(data);
@@ -178,7 +178,7 @@ const Animals = () => {
               {animals.map((animal) => {
                 const icon = categoryIcons[animal.category] || categoryIcons.Default;
                 const imageUrl = animal.image
-                  ? (animal.image.startsWith('http') ? animal.image : `https://agripet-connect.onrender.com/uploads/${animal.image}`)
+                  ? (animal.image.startsWith('http') ? animal.image : `http://localhost:5000/uploads/${animal.image}`)
                   : null;
 
                 return (
