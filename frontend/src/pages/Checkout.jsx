@@ -26,7 +26,7 @@ const Checkout = () => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/cart', {
+      const res = await axios.get('https://agripet-connect.onrender.com/api/cart', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (res.data.length === 0) {
@@ -63,7 +63,7 @@ const Checkout = () => {
         totalAmount: total
       };
 
-      const res = await axios.post('http://localhost:5000/api/orders', payload, {
+      const res = await axios.post('https://agripet-connect.onrender.com/api/orders', payload, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 

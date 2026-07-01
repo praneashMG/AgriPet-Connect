@@ -13,14 +13,7 @@ const {
 } = require("../controllers/productController");
 
 // Configure multer storage (reusing the same uploads/ directory)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, "prod_" + Date.now() + path.extname(file.originalname));
-  },
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,

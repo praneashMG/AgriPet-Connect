@@ -1,14 +1,30 @@
 const pool = require("../config/db");
 const fs = require("fs");
 const path = require("path");
+const supabase = require("../config/supabaseClient");
 
-// Helper to delete local uploaded file
-const deleteFile = (filename) => {
+// Helper to delete local uploaded file (no longer needed for Supabase, but keeping stub)
+const deleteFile = async (filename) => {
   if (!filename) return;
-  const filePath = path.join(__dirname, "../uploads", filename);
-  fs.unlink(filePath, (err) => {
-    if (err) console.error("Error deleting image file:", err);
-  });
+  
+  if (filename.startsWith('http')) {
+    try {
+      // Extract path after 'uploads/'
+      const urlParts = filename.split('/uploads/');
+      if (urlParts.length > 1) {
+        const filePath = urlParts[1];
+        await supabase.storage.from("uploads").remove([filePath]);
+      }
+    } catch (err) {
+      console.error("Error deleting Supabase image file:", err);
+    }
+  } else {
+    // Legacy local delete
+    const filePath = path.join(__dirname, "../uploads", filename);
+    fs.unlink(filePath, (err) => {
+      if (err) console.error("Error deleting local image file:", err);
+    });
+  }
 };
 
 // 1. Add Animal
@@ -27,7 +43,27 @@ exports.addAnimal = async (req, res) => {
     } = req.body;
 
     const seller_id = req.user.id;
-    const image = req.file ? req.file.filename : null;
+    let image = null;
+
+    if (req.file) {
+      const fileName = `animals/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+      const { data, error } = await supabase.storage
+        .from("uploads")
+        .upload(fileName, req.file.buffer, {
+          contentType: req.file.mimetype,
+        });
+
+      if (error) {
+        console.error("Supabase upload error:", error);
+        return res.status(500).json({ message: "Image upload failed" });
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("uploads")
+        .getPublicUrl(fileName);
+
+      image = publicUrlData.publicUrl;
+    }
 
     if (!animal_name || !category || !price) {
       return res.status(400).json({
@@ -193,8 +229,25 @@ exports.updateAnimal = async (req, res) => {
     let image = animal.image;
     if (req.file) {
       // New image uploaded, delete old one
-      deleteFile(animal.image);
-      image = req.file.filename;
+      await deleteFile(animal.image);
+      
+      const fileName = `animals/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+      const { data, error } = await supabase.storage
+        .from("uploads")
+        .upload(fileName, req.file.buffer, {
+          contentType: req.file.mimetype,
+        });
+
+      if (error) {
+        console.error("Supabase upload error:", error);
+        return res.status(500).json({ message: "Image upload failed" });
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("uploads")
+        .getPublicUrl(fileName);
+
+      image = publicUrlData.publicUrl;
     }
 
     const updateQuery = `
@@ -250,7 +303,7 @@ exports.deleteAnimal = async (req, res) => {
     }
 
     // Delete image file first
-    deleteFile(animal.image);
+    await deleteFile(animal.image);
 
     // Delete from DB
     await pool.query("DELETE FROM animals WHERE id = $1", [id]);

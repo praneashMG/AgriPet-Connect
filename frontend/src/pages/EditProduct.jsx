@@ -34,7 +34,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${id}`);
+        const response = await fetch(`https://agripet-connect.onrender.com/api/products/${id}`);
         if (!response.ok) {
           throw new Error('Product listing could not be retrieved');
         }
@@ -56,7 +56,7 @@ const EditProduct = () => {
 
         if (data.image) {
           setExistingImage(data.image);
-          setImagePreview(data.image.startsWith('http') ? data.image : `http://localhost:5000/uploads/${data.image}`);
+          setImagePreview(data.image.startsWith('http') ? data.image : `https://agripet-connect.onrender.com/uploads/${data.image}`);
         }
       } catch (err) {
         console.error(err);
@@ -97,7 +97,7 @@ const EditProduct = () => {
         data.append('image', imageFile);
       }
 
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`https://agripet-connect.onrender.com/api/products/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -218,7 +218,7 @@ const EditProduct = () => {
                       type="button"
                       onClick={() => {
                         setImageFile(null);
-                        setImagePreview(existingImage ? `http://localhost:5000/uploads/${existingImage}` : null);
+                        setImagePreview(existingImage ? `https://agripet-connect.onrender.com/uploads/${existingImage}` : null);
                       }}
                       className="text-xs text-red-600 hover:underline font-semibold"
                     >

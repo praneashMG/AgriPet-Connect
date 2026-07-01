@@ -15,7 +15,7 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/stats', {
+      const res = await axios.get('https://agripet-connect.onrender.com/api/admin/stats', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setStats(res.data);
@@ -27,7 +27,7 @@ const AdminDashboard = () => {
   const fetchData = async (type) => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/admin/${type}`, {
+      const res = await axios.get(`https://agripet-connect.onrender.com/api/admin/${type}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setDataList(res.data);
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   const handleDelete = async (id, type) => {
     if (!window.confirm(`Are you sure you want to delete this ${type.slice(0, -1)}?`)) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/${type}/${id}`, {
+      await axios.delete(`https://agripet-connect.onrender.com/api/admin/${type}/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       fetchData(type);
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
 
   const getImageUrl = (img) => {
     if (!img) return null;
-    return img.startsWith('http') ? img : `http://localhost:5000/uploads/${img}`;
+    return img.startsWith('http') ? img : `https://agripet-connect.onrender.com/uploads/${img}`;
   };
 
   const renderOverview = () => (

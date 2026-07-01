@@ -1,14 +1,30 @@
 const pool = require("../config/db");
 const fs = require("fs");
 const path = require("path");
+const supabase = require("../config/supabaseClient");
 
-// Helper to delete local uploaded file
-const deleteFile = (filename) => {
+// Helper to delete local uploaded file (no longer needed for Supabase, but keeping stub)
+const deleteFile = async (filename) => {
   if (!filename) return;
-  const filePath = path.join(__dirname, "../uploads", filename);
-  fs.unlink(filePath, (err) => {
-    if (err) console.error("Error deleting image file:", err);
-  });
+  
+  if (filename.startsWith('http')) {
+    try {
+      // Extract path after 'uploads/'
+      const urlParts = filename.split('/uploads/');
+      if (urlParts.length > 1) {
+        const filePath = urlParts[1];
+        await supabase.storage.from("uploads").remove([filePath]);
+      }
+    } catch (err) {
+      console.error("Error deleting Supabase image file:", err);
+    }
+  } else {
+    // Legacy local delete
+    const filePath = path.join(__dirname, "../uploads", filename);
+    fs.unlink(filePath, (err) => {
+      if (err) console.error("Error deleting local image file:", err);
+    });
+  }
 };
 
 // 1. Add Product
@@ -16,7 +32,27 @@ exports.addProduct = async (req, res) => {
   try {
     const { name, category, price, stock, description } = req.body;
     const seller_id = req.user.id;
-    const image = req.file ? req.file.filename : null;
+    let image = null;
+
+    if (req.file) {
+      const fileName = `products/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+      const { data, error } = await supabase.storage
+        .from("uploads")
+        .upload(fileName, req.file.buffer, {
+          contentType: req.file.mimetype,
+        });
+
+      if (error) {
+        console.error("Supabase upload error:", error);
+        return res.status(500).json({ message: "Image upload failed" });
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("uploads")
+        .getPublicUrl(fileName);
+
+      image = publicUrlData.publicUrl;
+    }
 
     if (!name || !category || !price) {
       return res.status(400).json({
@@ -161,8 +197,25 @@ exports.updateProduct = async (req, res) => {
     let image = product.image;
     if (req.file) {
       // Replaced photo, clean up old one
-      deleteFile(product.image);
-      image = req.file.filename;
+      await deleteFile(product.image);
+      
+      const fileName = `products/${Date.now()}_${req.file.originalname.replace(/\s+/g, "_")}`;
+      const { data, error } = await supabase.storage
+        .from("uploads")
+        .upload(fileName, req.file.buffer, {
+          contentType: req.file.mimetype,
+        });
+
+      if (error) {
+        console.error("Supabase upload error:", error);
+        return res.status(500).json({ message: "Image upload failed" });
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from("uploads")
+        .getPublicUrl(fileName);
+
+      image = publicUrlData.publicUrl;
     }
 
     const updateQuery = `
@@ -213,7 +266,7 @@ exports.deleteProduct = async (req, res) => {
     }
 
     // Clean photo from server disk
-    deleteFile(product.image);
+    await deleteFile(product.image);
 
     // Delete listing from DB
     await pool.query("DELETE FROM products WHERE id = $1", [id]);
